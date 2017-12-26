@@ -1,0 +1,11 @@
+.upload-picker input {
+  display: none;
+}
+
+.modal-email-prompt[data-state="email"] {
+  display: block;
+}
+
+.modal-upload-progress[data-state="upload"] {
+  display: block;
+}

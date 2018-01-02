@@ -5,12 +5,12 @@ const EmailModal = (props) => {
     <div 
       className="modal-email-prompt"
       data-state={props.state}>
-      <span>Please enter your email to receive a link to processed photos:</span>
+      <div>Please enter your email to receive a link to processed photos:</div>
       <form onSubmit={(evt) => props.onEmail(evt.target.elements['email'].value)}>
         <label>
+        Email: 
           <input 
             type="email"/>
-          Email
         </label>
         <input type="submit" value="Submit"/>
       </form>

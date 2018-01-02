@@ -19,9 +19,8 @@ const Dropzone =(props)=> {
     onDrop={drop}
     onDragEnter={plug} 
     onDragOver={plug}>
-    <div>
-      <span>Add photos by dragging them here</span>
-      <span>or <Picker onAdd={props.onAdd}/></span>
+    <div className="drop-area-caption">
+      <span>Add photos by dragging them here, or <Picker onAdd={props.onAdd}/></span>
     </div>
   </div>
 }

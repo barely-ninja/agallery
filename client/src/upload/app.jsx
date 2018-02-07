@@ -37,16 +37,12 @@ class UploadApp extends React.Component {
     switch (nextState) {
     case 'adding':
       return { files: action.files }
-      break
     case 'email':
       return { files: action.files }
-      break
     case 'upload':
       return { email: action.email }
-      break
     case 'done':
-      return { result: action.result }
-      break       
+      return { result: action.result } 
     default:
       break
     }

@@ -1,0 +1,54 @@
+.selection-app-container{
+  display: flex;
+  flex-flow: column; 
+}
+
+.pane-container, .selector-pane-container{
+  display: flex;
+  flex-flow: row; 
+}
+
+.all-images-pane, .best-images-pane{
+  width: 45%;
+  height: 70%;
+}
+.all-images-pane, .best-images-pane, .similar-images-pane{
+  display: flex;
+  flex-flow: row wrap;
+  align-content: flex-start;
+  justify-content: space-between;
+  border-color: black;
+  border-width: 1px; 
+}
+
+.pane-button-separator{
+  display: flex;
+  flex-flow: column; 
+}
+
+.add-button, .remove-button, .replace-button{
+  font-size: 50px;
+  margin: 10px;
+  background-color: lightgray;
+}
+
+.similarity-toggle{
+  width: 100px;
+  display: flex;
+  flex-flow: column;
+}
+
+.image-gallery, .image-gallery-active, .image-gallery-selected{
+  margin: 10px;
+  height: 150px;
+  width: 150px;
+}
+
+.image-gallery-active{
+  background-color: blue;
+}
+
+.image-gallery-selected{
+  opacity: 0.4;
+  background-color: black;
+}

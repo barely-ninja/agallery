@@ -1,23 +1,31 @@
 import React from 'react'
 import Pane from 'common/pane'
 
+const filterSimilar = (target, criteria) => {
+  switch (criteria){
+  case 'time':
+    return image => true
+  case 'quality':
+    return image => true
+  default:
+    return image => true
+  }
+}
+
 class SelectorPane extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      images: props.images.filter(this.filterSimilarBy('time'))
+      images: [],
+      similar: 'time'
     }
   }
 
-  filterSimilarBy(criteria) {
-    /*use this.props.target*/
-    switch (criteria){
-    case 'time':
-      return image => true
-    case 'quality':
-      return image => true
-    default:
-      return image => true
+  componentWillReceiveProps(nextProps){
+    if (nextProps.target) {
+      this.setState({
+        images: nextProps.images.filter(filterSimilar(nextProps.target, this.state.similar))
+      })
     }
   }
 
@@ -32,43 +40,49 @@ class SelectorPane extends React.Component {
     return (
       <div
         className="selector-pane-container">
-        <form 
-          onChange={(ev) => this.setState({
-            images: this.props.images.filter(this.filterSimilarBy(ev.target.value))
-          })}>
-          <div className="similarity-toggle">
-            <input 
-              type="radio"
-              id="time"
-              name="similarity" 
-              value="time"
-              defaultChecked/>
-            <label htmlFor="time">
-              Similar time
-            </label>
-            <input 
-              type="radio" 
-              id="quality"
-              name="similarity" 
-              value="quality"/>
-            <label htmlFor="quality">
-              Similar quality
-            </label>
+        <div className="replace-button-container">
+          <div
+            className="replace-button"
+            onClick={() => {
+              if (currentSelection.length>0){
+                this.setState({images: []})
+                this.props.onReplace({src: currentSelection[0].src})
+              }
+            }}>
+            Replace
           </div>
-        </form>
+        </div>
         <Pane
           class="similar-images-pane"
           imageClass={this.props.imageClass}
           onSelect={({src}) => this.resetActive(src)}
           images={this.state.images}/>
-        <div className="replace-button-container">
-          <div
-            className="replace-button"
-            onClick={() => (currentSelection.length>0) ? 
-              this.props.onReplace(currentSelection[0].src) : 
-              null}>
-            Replace
-          </div>
+        <div className="similarity-toggle">
+          <form 
+            onChange={(ev) => this.setState({
+              images: this.props.images.filter(filterSimilar(this.props.target, ev.target.value)),
+              similar: ev.target.value
+            })}>
+            <input 
+              type="radio"
+              id="time"
+              name="similarity" 
+              value="time"
+              checked={this.state.similar == 'time'}/>
+            <label htmlFor="time">
+              Similar time
+            </label>
+            <hr/>
+            <input 
+              type="radio" 
+              id="quality"
+              name="similarity" 
+              value="quality"
+              checked={this.state.similar == 'quality'}/>
+            <label htmlFor="quality">
+              Similar quality
+            </label>
+          </form>
         </div>
       </div>
     )}

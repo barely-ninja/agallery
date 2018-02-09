@@ -111,7 +111,8 @@ class SelectionApp extends React.Component {
     
     if (nextAppState) {
       const nextState = this.command(nextAppState, action)
-      console.log(action, nextState)
+      //console.log(action)
+      //console.log(nextState)
       this.setState({
         ...nextState,
         app: nextAppState
@@ -120,17 +121,32 @@ class SelectionApp extends React.Component {
   }
   
   render(){
-    const imageClass = image => {
-      if (image.isActive) return 'image-gallery-active'
-      if (image.isSelected) return 'image-gallery-selected'
-      return 'image-gallery'
+    const imageClass = {
+      normal: 'image-gallery',
+      active: 'image-gallery-active',
+      selected: 'image-gallery-selected'
     }
+
+    const selectImageClass = {
+      all: image => {
+        if (image.isActive && !image.isSelected) return imageClass.active
+        if (image.isSelected) return imageClass.selected
+        return imageClass.normal
+      },
+      best: image => {
+        if (image.isActive && image.isSelected) return imageClass.active
+        return imageClass.normal
+      },
+      similar: image => image.isActive ? imageClass.active : imageClass.normal
+    }
+
     const appState = this.state.app
-    const target = this.state.images.filter((item) => item.isActive && item.isSelected).src
+    const targetSelection = this.state.images.filter((item) => item.isActive && item.isSelected)
+    const target = targetSelection.length > 0 ? targetSelection[0].src : null
     return <div className="selection-app-container">
       <div className="pane-container">
         <Pane class="all-images-pane"
-          imageClass={imageClass} 
+          imageClass={selectImageClass.all} 
           onSelect={({src, isSelected}) => isSelected ? null : this.transition({type: 'TOGGLE_ACTIVE', src})}
           images={this.state.images}
           state={appState}/>
@@ -147,14 +163,14 @@ class SelectionApp extends React.Component {
           </div>
         </div>
         <Pane class="best-images-pane"
-          imageClass={imageClass} 
+          imageClass={selectImageClass.best} 
           onSelect={({src}) => this.transition({type: 'TOGGLE_ACTIVE', src})}
           images={this.state.images.filter(item => item.isSelected)} 
           state={appState}/>
       </div>
       <SelectorPane 
         images={this.state.images.map(item => ({...item, isActive: false}))}
-        imageClass={imageClass}
+        imageClass={selectImageClass.similar}
         target={target}
         onReplace={({src}) => this.transition({type: 'REPLACE_ACTIVE', target, src})}
         onDone={() => this.transition({type: 'CONTINUE'})} 

@@ -8,7 +8,7 @@ const Pane = (props) => {
       return <Thumbnail 
         src={image.src}
         key={id}
-        data-is-selected={image.isSelected}
+        selected={image.isSelected}
         class={props.imageClass(image)}
         name={image.src.split('/').pop()}
         onClick={props.onSelect}

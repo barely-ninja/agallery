@@ -5,7 +5,8 @@ const Thumbnail = (props) => {
     className={props.class}
     id={props.name}>
     <img
-      onClick={(ev) => props.onClick({src: ev.target.src, isSelected: ev.target.isSelected})} 
+      className="thumb"
+      onClick={(ev) => props.onClick({src: ev.target.src, isSelected: props.selected})} 
       src={props.src}
     />
   </div>
